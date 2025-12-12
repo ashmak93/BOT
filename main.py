@@ -3,9 +3,9 @@ import asyncio
 from aiogram import Bot, Dispatcher
 
 from config import Config
-from handlers import start_handlers, text_handlers, photo_handlers
+from handlers import start_handlers, text_handlers
 
-# Настройка логирования
+# логирование
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -21,7 +21,6 @@ async def main():
 
     dp.include_router(start_handlers.router)
     dp.include_router(text_handlers.router)
-    dp.include_router(photo_handlers.router)
     
     logger.info("Бот запускается...")
     

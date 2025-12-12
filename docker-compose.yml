@@ -5,5 +5,6 @@ services:
     build: .
     container_name: text-analysis-bot
     restart: unless-stopped
-    env_file:
-      - .env
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - GIGACHAT_TOKEN=${GIGACHAT_TOKEN}
