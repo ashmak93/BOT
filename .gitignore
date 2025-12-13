@@ -2,6 +2,7 @@ __pycache__/
 *.pyc
 .git/
 tokens.txt
+.idea
 venv/
 *.log
 .DS_Store
