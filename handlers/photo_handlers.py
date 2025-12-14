@@ -25,7 +25,7 @@ async def handle_image(message: types.Message, bot: Bot):
 
         from handlers.text_handlers import main_keyboard
 
-        display_text = text[:200] + "..." if len(text) > 200 else text
+        display_text = text
 
         await message.answer(
             f"Распознанный текст:\n\n{display_text}\n\n"
