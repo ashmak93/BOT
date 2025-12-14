@@ -1,6 +1,5 @@
 import pytesseract
 from PIL import Image
-from services.ocr_service import OCRService
 import io
 
 class OCRService:
