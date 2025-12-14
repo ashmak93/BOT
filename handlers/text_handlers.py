@@ -46,7 +46,7 @@ async def handle_text(message: types.Message):
 
     if not message.text:
         if message.photo:
-            await message.answer("ну я работаю, но щас хз как текст с картинок считывать((")
+            return
         else:
             await message.answer("Пожалуйста, отправьте текст или фото.")
             return

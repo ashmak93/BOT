@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 async def handle_image(message: types.Message):
     """Обрабатывает изображение и отправляет распознанный текст"""
     try:
-        photo = message.photo
+        photo = message.photo[-1]
 
         photo_file = await photo.download(destination=io.BytesIO())
         image_bytes = photo_file.getvalue()

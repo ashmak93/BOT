@@ -20,8 +20,9 @@ async def main():
     dp = Dispatcher()
 
     dp.include_router(start_handlers.router)
-    dp.include_router(text_handlers.router)
     dp.include_router(photo_handlers.router)
+    dp.include_router(text_handlers.router)
+
     
     logger.info("Бот запускается...")
     
