@@ -45,11 +45,8 @@ async def handle_text(message: types.Message):
     """Обработка любого текста"""
 
     if not message.text:
-        if message.photo:
-            return
-        else:
-            await message.reply("Пожалуйста, отправьте текст или фото.")
-            return
+        await message.reply("Пожалуйста, отправьте текст или фото.")
+        return
 
     text = message.text.strip()
     user_id = message.from_user.id
