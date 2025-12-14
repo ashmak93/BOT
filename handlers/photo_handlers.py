@@ -1,34 +1,25 @@
 from aiogram import Router, types
 from aiogram.filters import Command
-import pytesseract
-from PIL import Image
+from services.ocr_service import OCRService
+import logging
 import io
 
 router = Router()
-
+logger = logging.getLogger(__name__)
 
 @router.message(lambda message: message.photo is not None)
 async def handle_image(message: types.Message):
-    """Обрабатывает загруженное изображение и отправляет распознанный текст"""
+    """Обрабатывает изображение и отправляет распознанный текст"""
     try:
         photo = message.photo[-1]
 
         photo_file = await photo.download(destination=io.BytesIO())
         image_bytes = photo_file.getvalue()
 
-        image = Image.open(io.BytesIO(image_bytes))
-        text = pytesseract.image_to_string(image, lang='rus+eng')
+        text = OCRService.extract_text_from_image(image_bytes)
 
-        if text is None:
-            await message.reply("Не удалось распознать текст с изображения")
-            return
-
-        cleaned_text = text.strip()
-
-        if cleaned_text:
-            await message.reply(f"Распознанный текст:\n\n{cleaned_text}")
-        else:
-            await message.reply("На изображении не обнаружен текст")
+        await message.reply(f"Распознанный текст:\n\n{text}")
 
     except Exception as e:
-        await message.reply(f"Ошибка при обработке: {str(e)}")
+        logger.error(f"Ошибка при обработке: {e}", exc_info=True)
+        await message.reply(f"Произошла ошибка при обработке изображения: {str(e)}")
