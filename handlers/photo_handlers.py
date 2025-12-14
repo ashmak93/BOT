@@ -1,17 +1,15 @@
-from aiogram import Router, types, Dispatcher
-from aiogram.types import ContentType
+from aiogram import Router, types
+from aiogram.filters import Command
 import pytesseract
 from PIL import Image
 import io
 
 router = Router()
 
-@router.message()
+
+@router.message(lambda message: message.photo is not None)
 async def handle_image(message: types.Message):
     """Обрабатывает загруженное изображение и отправляет распознанный текст"""
-    if not message.photo:
-        return
-
     try:
         photo = message.photo[-1]
 
@@ -21,12 +19,16 @@ async def handle_image(message: types.Message):
         image = Image.open(io.BytesIO(image_bytes))
         text = pytesseract.image_to_string(image, lang='rus+eng')
 
+        if text is None:
+            await message.reply("Не удалось распознать текст с изображения")
+            return
+
         cleaned_text = text.strip()
 
         if cleaned_text:
             await message.reply(f"Распознанный текст:\n\n{cleaned_text}")
         else:
-            await message.reply("Не удалось распознать текст с изображения")
+            await message.reply("На изображении не обнаружен текст")
 
     except Exception as e:
         await message.reply(f"Ошибка при обработке: {str(e)}")
