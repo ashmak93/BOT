@@ -18,6 +18,10 @@ user_last_text = {}
 @router.message(lambda message: message.text in ["Эмоции", "Главная мысль", "Ответ", "Проверить грамматику"])
 async def handle_menu_buttons(message: types.Message):
     """Обработка кнопок меню"""
+
+    if not message.text:
+        return
+
     user_id = message.from_user.id
 
     if user_id not in user_last_text or not user_last_text[user_id]:
